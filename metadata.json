@@ -1,0 +1,8 @@
+{
+  "name": "Homework & AI Tutor App",
+  "description": "An educational platform for a teacher to assign homework with flashcards and PDFs, featuring a YandexGPT-powered AI tutor adapted to the student's level.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
