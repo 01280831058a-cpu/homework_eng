@@ -1,0 +1,93 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user in the system (teacher or student)",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "username": { "type": "string" },
+        "role": { "type": "string", "enum": ["teacher", "student"] },
+        "level": { "type": "string" },
+        "age_group": { "type": "string" },
+        "teacherId": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    },
+    "Homework": {
+      "title": "Homework",
+      "description": "A homework assignment",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "teacherId": { "type": "string", "description": "The teacher who created it" },
+        "studentId": { "type": "string", "description": "Null if for all students, otherwise specific student ID" },
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "word": { "type": "string" },
+              "translation": { "type": "string" }
+            }
+          }
+        },
+        "files": {
+           "type": "array",
+           "items": { "type": "string" }
+        },
+        "createdAt": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["title", "teacherId", "createdAt"]
+    },
+    "Submission": {
+      "title": "Submission",
+      "description": "A student's answer to a homework",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "homeworkId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "completed"] },
+        "files": { 
+          "type": "array", 
+          "items": { "type": "string" } 
+        },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["studentId", "homeworkId", "status", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message inside a homework submission",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string" },
+        "homeworkId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["studentId", "homeworkId", "senderId", "text", "isRead", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Collection of all users"
+    },
+    "homeworks": {
+      "schema": { "$ref": "#/entities/Homework" },
+      "description": "All homeworks created by teachers"
+    },
+    "submissions": {
+      "schema": { "$ref": "#/entities/Submission" },
+      "description": "Student submissions for homeworks"
+    },
+    "messages": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Chats in homeworks"
+    }
+  }
+}
